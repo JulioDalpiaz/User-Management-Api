@@ -1,5 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
+const { verify } = jwt;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const auth = (req, res, next) => {
@@ -10,7 +11,7 @@ const auth = (req, res, next) => {
     }
 
     try{
-        const decoded = jwt.verify(token.replace('Bearer ', ''), JWT_SECRET); //o replace é para retirar a palavra "Bearer " do token, caso ela exista
+        const decoded = verify(token.replace('Bearer ', ''), JWT_SECRET); //o replace é para retirar a palavra "Bearer " do token, caso ela exista
         req.user = decoded;
         next(); //deixar dentro do try por segurança
     }catch(err){
@@ -18,4 +19,4 @@ const auth = (req, res, next) => {
     }
 }
 
-module.exports = auth;
+export default auth;
